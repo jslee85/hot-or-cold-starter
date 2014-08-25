@@ -1,6 +1,6 @@
-var guessCount;
-var aNumber;
 var luckyNumber;
+var guessCount;
+var guessPass;
 var newGuess;
 var bingo;
 
@@ -19,11 +19,18 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
-  	("form").submit(function(e) {
+  	$("form").submit(function(e) {
   		e.preventDefault();
   		if (!bingo) {
 	  		newGuess = $('#userGuess').val();
-
+	  		$('#userGuess').val('');
+	  		guessPass = checkNumber(newGuess);
+	  		if(!guessPass) {
+	  			guessCount++;
+	  			updateCount(guessCount);
+	  			$("ul#guessList").append("<li>" +newGuess+ "</li>");
+	  			guessPass = analyzeGuess(Math.abs(luckyNumber-newGuess));
+	  		}
   		}
   	});
 
@@ -51,7 +58,6 @@ $(document).ready(function(){
 
 	/*--- Analyze user guess and provide feedback ---*/
 	function analyzeGuess (x) {
-		x = absoluteValue(x);
 		if (x === 0) {
 			guessUpdate("Bingo!");
 			bingo = true;
@@ -82,6 +88,12 @@ $(document).ready(function(){
 			return true;
 		}
 	}
+	
+	/*--- Click to start a new game ---*/
+	$(".new").click(function(event){
+  		event.preventDefault();
+  		newGame();
+  	});
 
 	/*--- Start a new game ---*/
 	function newGame () {
@@ -89,7 +101,9 @@ $(document).ready(function(){
 		bingo = false;
 		luckyNumber = getRandomInt(0,100);
 		updateCount(guessCount);
+		guessUpdate("Make your guess.");
 		$("ul#guessList li").remove();
+		$('#userGuess').val('');
 	}
 
   	/*--- Generate a random number ---*/
@@ -100,16 +114,10 @@ $(document).ready(function(){
 
 	/*--- Update the guess count ---*/
 	function updateCount (count) {
-		$('.#count').text(guessCount);
-	}
-
-	/*--- Convert difference to absolute value ---*/
-	function absoluteValue (guess) {
-		return Math.abs(luckyNumber-guess);
+		$('#count').text(guessCount);
 	}
 
 	function guessUpdate (message) {
 		$('#feedback').text(message);
 	}
-
 });
