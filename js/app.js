@@ -34,13 +34,6 @@ $(document).ready(function(){
   		}
   	});
 
-  	/*--- Append ul with user guess ---*/
-	function missedGuess () {
-		var newitem = '<li><span>$(this).val()</span></li>';
-		$('#guessList').append(newitem);
-		return false;
-	}
-
   	/*--- Check if user guess meets requirements ---*/
 	function checkNumber (newGuess) {
 		if (isNaN(newGuess)) {
@@ -90,8 +83,8 @@ $(document).ready(function(){
 	}
 	
 	/*--- Click to start a new game ---*/
-	$(".new").click(function(event){
-  		event.preventDefault();
+	$(".new").click(function(e){
+  		e.preventDefault();
   		newGame();
   	});
 
@@ -117,6 +110,7 @@ $(document).ready(function(){
 		$('#count').text(guessCount);
 	}
 
+	/*--- Change the temperature ---*/
 	function guessUpdate (message) {
 		$('#feedback').text(message);
 	}
