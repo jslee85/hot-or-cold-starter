@@ -45,7 +45,7 @@ $(document).ready(function(){
 function newGame () {
 	guessCount = 0;
 	bingo = false;
-	luckyNumber = getRandomInt(0,100);
+	luckyNumber = getRandomInt(1,100);
 	updateCount(guessCount);
 	guessUpdate("Make your guess.");
 	$("ul#guessList li").remove();
